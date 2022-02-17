@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#f6e210">
+    <title>Document</title>
+    <style media="screen">
+        body{margin: 0;padding: 0}
+        main{
+            margin: auto;
+            width: 400px;
+            height: 750px;
+            background-color: black;
+            border: 5px solid rgb(185, 182, 184);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 3px 3px 16px black
+
+          }
+        .previous{
+            height: 150px;
+            position: relative;
+            color: rgba(228, 228, 228, 0.83);
+            text-align: right;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 1.5rem;
+            align-items: center;
+            font-family: sans-serif;
+            margin-right: 38px;
+            overflow: hidden;
+          }
+        .result{
+            height: 100px;
+            font-family: sans-serif;
+            font-size:5.5rem;
+            color: white;
+            margin-right: 38px;
+            margin-top: 10px;
+            margin-left: 5px;
+            text-align: right;
+            letter-spacing: -1px;
+            word-wrap: break-word;
+            overflow: hidden;
+          }
+        section{
+            margin: auto;
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(5, 1fr);
+            grid-gap: 10px;
+
+          }
+        .btn{
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 50%;
+            background-color: rgb(51, 51, 51);
+            font-size: 2em;
+            font-weight: bold;
+            font-family: sans-serif;
+            color: rgb(240, 240, 240);
+          }
+        .btn:active{transform: scale(0.95);}
+        .btn:nth-child(17){
+            justify-content: flex-start;
+            text-indent: 32px;
+            width: 170px;
+            border-radius: 45px;
+            grid-column-start: 1;
+            grid-column-end: 3;
+          }
+        .rgt-btn{background-color: rgb(213, 134, 46);font-weight: normal;font-size: 3.4rem}
+        .top-btn{background-color: rgb(203, 203, 203, .9);color: black}
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="previous"></div>
+      <div class="result">0</div>
+      <section>
+        <button class="btn top-btn">AC</button>
+        <button class="btn top-btn">+/-</button>
+        <button class="btn top-btn">%</button>
+        <button class="btn rgt-btn">÷</button>
+        <button class="btn">7</button>
+        <button class="btn">8</button>
+        <button class="btn">9</button>
+        <button class="btn rgt-btn">×</button>
+        <button class="btn">4</button>
+        <button class="btn">5</button>
+        <button class="btn">6</button>
+        <button class="btn rgt-btn">-</button>
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn rgt-btn">+</button>
+        <button class="btn">0</button>
+        <button class="btn">.</button>
+        <button class="btn rgt-btn">=</button>
+      </section>
+    </main>
+
+    <script>
+    // Объявление переменных
+      const section = document.querySelector("section"),
+      previous = document.querySelector(".previous"),
+      result = document.querySelector(".result");
+      let macth
+      // Создаем функцию обработчик
+      calculatorIos = (event)=>{
+        let targ = event.target;
+        if (targ.tagName != 'BUTTON') return;
+
+        if (targ.innerHTML === "AC") {
+          result.innerHTML = '0';
+          match = 0;
+          result.style.fontSize = "5.5rem";
+          return
+        };
+
+        if (result.innerHTML == "0" && targ.innerHTML !== "=") {
+          if (targ.innerHTML == "+" || targ.innerHTML == "-" || targ.innerHTML == "÷"||targ.innerHTML == "×"||targ.innerHTML == "+/-"||targ.innerHTML == "%"||targ.innerHTML == "." ) {
+            return
+          }
+          result.innerHTML = targ.innerHTML;
+          match = +result.innerHTML;
+          return
+        };
+
+        if (targ.innerHTML !== "=") {
+          switch (targ.innerHTML) {
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case "0":
+            match+=targ.innerHTML
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "+":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}+`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "-":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}-`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "÷":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}/`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "×":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}*`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "%":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}/100`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case ".":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-"||match[match.length-1] === "*"||match[match.length-1] === "/" ||match[match.length-1] === ".") {
+              break
+            }
+            match = `${match}.`
+            result.innerHTML += targ.innerHTML;
+            if (result.innerHTML.length>7) {
+              result.style.fontSize = "3rem";
+            }
+            break;
+            case "+/-":
+            if (match[match.length-1] === "+"||match[match.length-1] === "-") {
+              if (match[match.length-1] === "+") {
+                match = match.replace(/\+$/,"-");
+                result.innerHTML = result.innerHTML.replace(/\+$/,"-")
+              }
+              else {
+                match = match.replace(/-$/,"+");
+                result.innerHTML = result.innerHTML.replace(/-$/,"+")
+              }
+            }
+            break;
+            default:
+          }
+        }
+        else {
+          previous.innerHTML = result.innerHTML;
+          match = matchFormule();
+          if (match.toString().length > 7) {
+            result.style.fontSize = "3rem";
+            result.innerHTML = match
+          }
+          else {
+            result.style.fontSize = "5.5rem";
+            result.innerHTML = match
+          }
+
+        }
+      };
+      // Создаем функцию превращающую строку в формулу
+      function matchFormule() {
+       return (Math.round(new Function('return ' + match)()*1000))/1000}
+      // Объявляем событие
+      section.addEventListener("click", calculatorIos,false);
+
+    </script>
+  </body>
+</html>
